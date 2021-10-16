@@ -10,9 +10,9 @@ program:
 
 experiment:
   task: "chesapeake_learn_on_prior"
-  name: "chesapeake_train_on_prior_ce"
+  name: "chesapeake_train_on_prior"
   module:
-    loss: "qr_forward"  # cross entropy loss
+    loss: "qr_forward"  
     segmentation_model: "fcn"
     activation_layer: "logsoftmax" 
     optimizer: "adamw"
