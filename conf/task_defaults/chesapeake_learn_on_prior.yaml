@@ -1,0 +1,18 @@
+experiment:
+  task: "chesapeake_learn_on_prior"
+  module:
+    loss: "nll"
+    segmentation_model: "unet"
+    encoder_name: "resnet18"
+    encoder_weights: "imagenet"
+    learning_rate: 1e-3
+    learning_rate_schedule_patience: 4
+    condense_barren: True
+    output_smooth: 1e-8
+  datamodule:
+    batch_size: 64
+    patch_size: 128
+    patches_per_tile: 50
+    num_workers: 4
+    train_state: "de"
+    condense_barren: True
