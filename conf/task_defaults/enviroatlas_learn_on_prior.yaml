@@ -1,0 +1,20 @@
+experiment:
+  task: "enviroatlas_learn_on_prior"
+  module:
+    loss: "nll"
+    segmentation_model: "unet"
+    encoder_name: "resnet18"
+    encoder_weights: "imagenet"
+    learning_rate: 1e-3
+    learning_rate_schedule_patience: 4
+    classes_keep: [1,2,3,4,6]
+    output_smooth: 1e-8
+    n_classes: 5
+    num_filters: 128
+  datamodule:
+    batch_size: 64
+    patch_size: 128
+    patches_per_tile: 50
+    num_workers: 4
+    train_state: "pittsburgh_pa-2010"
+    classes_keep: [1,2,3,4,6] 
