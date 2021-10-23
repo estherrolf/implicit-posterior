@@ -9,24 +9,26 @@ import subprocess
 from multiprocessing import Process, Queue
 
 # list of GPU IDs that we want to use, one job will be started for every ID in the list
-GPUS = [0,1]#,2,3] 
+GPUS = [0] 
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options
-training_set_options = ['pittsburgh_pa-2010_1m']
-model_options = ['fcn']
-lr_options = [1e-3,1e-4,1e-5]
+training_set_options = ['phoenix_az-2010_1m', 
+                        'durham_nc-2012_1m', 
+                        'austin_tx-2012_1m',
+                        'pittsburgh_pa-2010_1m'
+                       ]
 
-loss_options = ['qr_forward', 'qr_reverse']
+model_options = ["fcn_larger"]
+lr_options = [1e-3, 1e-4, 1e-5]
+loss_options = ["nll"]
 
-prior_version_options = [
-                        'from_cooccurrences_101_31',
-                        ]
+additive_smooth_options = [1e-8]
 
-additive_smooth_options = [1e-4]
-prior_smooth_options = [1e-4]
+train_set, val_set, test_set = ["val5", "val5", "val5"]
 
-train_set, val_set, test_set = ['val', 'val', 'val']
+nlcd_blur_kernelsize = 101
+nlcd_blur_sigma = 31
 
 def do_work(work, gpu_idx):
     while not work.empty():
@@ -42,41 +44,37 @@ def main():
 
     work = Queue()
 
-    for (states_str, model, loss, prior_version, lr, additive_smooth, prior_smooth) in itertools.product(
+    for (states_str, model, lr,loss, additive_smooth) in itertools.product(
         training_set_options,
         model_options,
-        loss_options,
-        prior_version_options,
         lr_options,
-        additive_smooth_options,
-        prior_smooth_options
+        loss_options,
+        additive_smooth_options
     ):
 
-        experiment_name = f"pa_checkpoint_{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
-        
-        
-        model_checkpoint = "/home/esther/torchgeo/output/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
-        output_dir = "output/hp_search/ea_from_pittsburgh_model"
+        experiment_name = f"{states_str}_{model}_{lr}_{loss}_blur_sigma_{nlcd_blur_sigma}_learn_the_prior"
+
+        output_dir = "output/learn_prior_ea/"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_on_prior.yml"
+            "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_the_prior.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
-            + f" experiment.module.learning_rate={lr}"
             + f" experiment.module.loss={loss}"
-            + f" experiment.module.model_ckpt={model_checkpoint}"
+            + f" experiment.module.learning_rate={lr}"
             + f" experiment.module.num_filters=128"
-            + f" experiment.datamodule.batch_size=128"
-            + f" experiment.datamodule.prior_version={prior_version}"
-            + f" experiment.datamodule.prior_smoothing_constant={prior_smooth}"
+            + f" experiment.datamodeul.batch_size=128"
+            + f" experiment.datamodeul.patch_size=128"
             + f" experiment.module.output_smooth={additive_smooth}"
+            + f" experiment.datamodule.nlcd_blur_kernelsize={nlcd_blur_kernelsize}"
+            + f" experiment.datamodule.nlcd_blur_sigma={nlcd_blur_sigma}"
             + f" experiment.datamodule.states_str={states_str}"
+            + f" experiment.datamodule.patches_per_tile=800"
             + f" experiment.datamodule.train_set={train_set}"
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/hp_search/ea_from_pittsburgh"
-            + " program.data_dir=/home/esther/torchgeo_data/enviroatlas"
+            + f" program.log_dir=logs/learn_prior_ea/learn_the_prior"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()
@@ -90,8 +88,6 @@ def main():
         p.start()
     for p in processes:
         p.join()
-        
-    return
 
 
 if __name__ == "__main__":

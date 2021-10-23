@@ -9,7 +9,7 @@ import subprocess
 from multiprocessing import Process, Queue
 
 # list of GPU IDs that we want to use, one job will be started for every ID in the list
-GPUS = [2,3] 
+GPUS = [0] 
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options
@@ -21,13 +21,11 @@ training_set_options = ['phoenix_az-2010_1m',
 
 model_options = ['fcn']
 
-#lr_options = [1e-3] # lr depends on forwart/reverse
+# lr depends on whether you're doing forward/reverse
 
 loss_options = ['qr_forward', 'qr_reverse']
 
-prior_version_options = [
-                        'from_cooccurrences_101_31',
-                        ]
+prior_version_options = ['from_cooccurrences_101_31']
 
 additive_smooth_options = [1e-4]
 prior_smooth_options = [1e-4]
@@ -56,13 +54,14 @@ def main():
         additive_smooth_options,
         prior_smooth_options
     ):
-        experiment_name = f"{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
         
         if loss == 'qr_forward':
             lr = 1e-4
         elif loss == 'qr_reverse':
             lr = 1e-3
         output_dir = "output/ea_from_scratch"
+        
+        experiment_name = f"{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
 
         command = (
             "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_on_prior.yml"
