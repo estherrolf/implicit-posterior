@@ -25,7 +25,7 @@ from general_prior_calculation import calculate_prior_preblurred
 from make_priors_chesapeake import compile_and_save_one_hot_nlcd_cc, compile_and_save_one_blurred_hot_nlcd_cc
     
 
-cooc_matrix_dir = "/home/esther/qr_for_landcover/compute_priors/cooccurrence_matrices"
+cooc_matrix_dir = "/home/esther/qr_for_landcover/compute_priors/cooccurrence_matrices/enviroatlas"
 ea_data_dir = '/home/esther/torchgeo_data/enviroatlas_copy'
 ea_data_splits_dir = '/home/esther/qr_for_landcover/enviroatlas_data_splits'
 

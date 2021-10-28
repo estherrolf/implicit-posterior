@@ -17,7 +17,7 @@ enviroatlas_city_csvs_path = '/home/esther/land-cover-private/data/splits2'
 ea_data_dir = '/home/esther/lc-mapping/enviroatlas_data'
 
 # where to save cooccurrence matrices
-cooc_ouput_dir = "/home/esther/qr_for_landcover/compute_priors/cooccurrence_matrices"
+cooc_ouput_dir = "/home/esther/qr_for_landcover/compute_priors/cooccurrence_matrices/enviroatlas"
 
 
 num_nlcd_classes = len(lc.class_definitions['nlcd'])
