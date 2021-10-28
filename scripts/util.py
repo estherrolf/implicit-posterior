@@ -28,8 +28,8 @@ def bag_from_numpy(p, radius):
     return T.nn.functional.avg_pool2d(T.from_numpy(p).unsqueeze(0), 2*radius+1, stride=1, padding=radius, count_include_pad=False)[0].numpy()
 
 
-# def bag(p, radius):
-#     return T.nn.functional.avg_pool2d(p.unsqueeze(0), 2*radius+1, stride=1, padding=radius, count_include_pad=False)[0]
+def bag(p, radius):
+    return T.nn.functional.avg_pool2d(p.unsqueeze(0), 2*radius+1, stride=1, padding=radius, count_include_pad=False)[0]
 
 # def plot_grid(pred1, pred2, prior, img1, img2, nlcd, s=4, years = ['year1', 'year2'], save_fn = None): 
 #     s = 4    

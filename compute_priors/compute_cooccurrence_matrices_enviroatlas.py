@@ -16,6 +16,10 @@ import get_naip_data, get_building_data, get_nlcd_data, get_road_data, get_water
 enviroatlas_city_csvs_path = '/home/esther/land-cover-private/data/splits2'
 ea_data_dir = '/home/esther/lc-mapping/enviroatlas_data'
 
+# where to save cooccurrence matrices
+cooc_ouput_dir = "/home/esther/qr_for_landcover/compute_priors/cooccurrence_matrices"
+
+
 num_nlcd_classes = len(lc.class_definitions['nlcd'])
 num_ea_classes = len(lc.class_definitions['enviroatlas'])
 
@@ -96,8 +100,8 @@ def make_cooccurance_matrices(splits,
         
     # save the counts and aveeraged cooccurence matrices
     if save_results:
-        np.save(f'{ea_data_dir}/nlcd_{state}_{descriptor}_label_cooccurrences.npy', counts_by_img)
-        np.save(f'{ea_data_dir}/avg_nlcd_{state}_{descriptor}_label_cooccurrences.npy', counts_avgd_nonzero)
+        np.save(f'{cooc_ouput_dir}/nlcd_{state}_{descriptor}_label_cooccurrences.npy', counts_by_img)
+        np.save(f'{cooc_ouput_dir}/avg_nlcd_{state}_{descriptor}_label_cooccurrences.npy', counts_avgd_nonzero)
     
     return counts_by_img, counts_renorm
 
@@ -111,7 +115,7 @@ if __name__ == "__main__":
                          'enviroatlas-pittsburgh_pa-2010.csv']
 
 
-    # 1. add zero annotations
+   # 1. add zero annotations
     for x in splits_to_process:
         print(x)
         annot_path = f'{enviroatlas_city_csvs_path}/{x}'.replace('.csv', '_annotated.csv')
@@ -149,10 +153,10 @@ if __name__ == "__main__":
     
     states_todo = ['pa', 'austin_tx', 'az', 'nc']
     filenames_todo = [
-                       f'{enviroatlas_city_csvs_path}/enviroatlas-pittsburgh_pa-2010_no_zeros_annotated.csv',
-                       f'{enviroatlas_city_csvs_path}/enviroatlas-austin_tx-2012_annotated_no_zeros_no_agriculture.csv',
-                       f'{enviroatlas_city_csvs_path}/enviroatlas-phoenix_az-2010_annotated_no_zeros_no_agriculture.csv',
-                       f'{enviroatlas_city_csvs_path}/enviroatlas-durham_nc-2012_annotated.csv',
+                       f'{enviroatlas_city_csvs_path}/enviroatlas-pittsburgh_pa-2010_annotated.csv',
+                      f'{enviroatlas_city_csvs_path}/enviroatlas-austin_tx-2012_annotated_no_zeros_no_agriculture.csv',
+                      f'{enviroatlas_city_csvs_path}/enviroatlas-phoenix_az-2010_annotated_no_zeros_no_agriculture.csv',
+                      f'{enviroatlas_city_csvs_path}/enviroatlas-durham_nc-2012_annotated.csv',
                      ]
 
     descriptors = [
