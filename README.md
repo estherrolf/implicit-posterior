@@ -24,7 +24,7 @@ Note that you'll need to change the paths to the data directories at the top of 
 
 To learn the Enviroatlas prior from its inputs: 
 1. First run 'learn_the_prior_enviroatlas.py` from the `experiment_scripts` folder. 
-2. To run the model forward and save these learned priors, from the `evaluation' folder run `save_learned_priors.py`
+2. To run the model forward and save these learned priors, from the `evaluation` folder run `save_learned_priors.py`
 3. You can visualize the learned priors with `evaluation/visualize_output/visualize_learned_priors_ea.ipynb`.
 
 ### Experiment Scripts:
