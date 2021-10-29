@@ -22,8 +22,10 @@ To construct the priors for the EnviroAtlas dataset, theres a few additional ste
 2. `make_priors_envirotlas.py` makes the priors and saves them in the folder from torchgeo.
 Note that you'll need to change the paths to the data directories at the top of each script. The notebooks in the `qr_for_landcover/compute_priors` will visualize these outputs. 
 
-To learn the Enviroatlas prior from its inputs, 
-[TODO -- reference script to train the learned priors and script to generate and save priors from the models.]
+To learn the Enviroatlas prior from its inputs: 
+1. First run 'learn_the_prior_enviroatlas.py' from the `experiment_scripts' folder. 
+2. To run the model forward and save these learned priors, from the `evaluation' folder run `save_learned_priors.py'
+3. You can visualize the learned priors with `evaluation/visualize_output/visualize_learned_priors_ea.ipynb'.
 
 ### Experiment Scripts:
 The experiment scripts are broken up into hyperparameter search scripts (hp_\*.py) and evaluation runs (run_\*.py). 
