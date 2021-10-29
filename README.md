@@ -9,6 +9,8 @@ TODO - link to paper once available
 
 TODO - explain how to make the python environment.
 
+TODO - how to download the datasets from torchgeo.
+
 ### Constructing the priors:
 If you want to skip constructing the priors and move ahead to the experiment scripts, you can download the precomputed priors from torchgeo (todo: add link).
 
