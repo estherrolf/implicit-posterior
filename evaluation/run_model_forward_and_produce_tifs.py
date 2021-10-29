@@ -9,7 +9,7 @@ import torch
 import torch.nn.functional as F
 
 sys.path.append("/home/esther/torchgeo")
-from torchgeo.datasets import TileInferenceDataset
+from TileDatasetsModified import TileInferenceDataset
 from torchgeo.models import FCN_larger_modified, FCN_modified
 
 NUM_CLASSES = 5
