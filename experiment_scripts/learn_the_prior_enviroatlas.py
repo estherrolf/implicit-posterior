@@ -54,7 +54,7 @@ def main():
 
         experiment_name = f"{states_str}_{model}_{lr}_{loss}_blur_sigma_{nlcd_blur_sigma}_learn_the_prior"
 
-        output_dir = "output/learn_prior_ea/"
+        output_dir = "output/learn_prior_ea_2/"
 
         command = (
             "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_the_prior.yml"
