@@ -41,6 +41,7 @@ The experiment scripts are broken up into hyperparameter search scripts (hp_\*.p
 To evaluate the Chesapeake Conservancy predictions in NY and PA:
 1. Run `save_predictions_chesapeake.py` from the `evaluation` folder.
 2. Evaluate the predictions against the high resolution labels with `evaluation/evaluate_qr_models_chesapeake.ipynb`
+
 To evaluate the EnviroAtlas predictions in each state:
 1. Run  `save_predictions_envirotlas.py` from the `evaluation` folder.
 2. Evaluate the predictions against the high resolution labels with `evaluation/evaluate_enviroatlas_hr_models.ipynb` (for the models trained with high resolution label data) and `evaluation/evaluate_qr_models_enviroatlas.ipynb` (for the QR and RQ models).
