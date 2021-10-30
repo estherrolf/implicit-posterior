@@ -98,7 +98,7 @@ def make_cooccurance_matrices(splits,
     counts_avgd_nonzero[nodata_idx,counts_avgd_nonzero.sum(axis=0) == 0] = 1.
     counts_avgd_nonzero = sklearn.preprocessing.normalize(counts_avgd_nonzero,norm='l1',axis=0)
         
-    # save the counts and aveeraged cooccurence matrices
+    # save the counts and averaged cooccurence matrices
     if save_results:
         np.save(f'{cooc_ouput_dir}/nlcd_{state}_{descriptor}_label_cooccurrences.npy', counts_by_img)
         np.save(f'{cooc_ouput_dir}/avg_nlcd_{state}_{descriptor}_label_cooccurrences.npy', counts_avgd_nonzero)

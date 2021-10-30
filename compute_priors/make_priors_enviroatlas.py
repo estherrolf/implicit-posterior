@@ -26,7 +26,7 @@ from make_priors_chesapeake import compile_and_save_one_hot_nlcd_cc, compile_and
     
 
 cooc_matrix_dir = "/home/esther/qr_for_landcover/compute_priors/cooccurrence_matrices/enviroatlas"
-ea_data_dir = '/home/esther/torchgeo_data/enviroatlas_copy'
+ea_data_dir = '/home/esther/torchgeo_data/enviroatlas'
 ea_data_splits_dir = '/home/esther/qr_for_landcover/enviroatlas_data_splits'
 
 
@@ -215,8 +215,8 @@ if __name__ == "__main__":
     
     fp_pa_val = f'{ea_data_splits_dir}/pa_validation_8pts'
     fp_pa_train = f'{ea_data_splits_dir}/pa_train_10pts'
-    tile_ids_by_state['pittsburgh_pa-2010']['train'] = list(pd.read_csv(fp_pa_val)['img_fn'].apply(tile_id_from_fn))
-    tile_ids_by_state['pittsburgh_pa-2010']['val'] = list(pd.read_csv(fp_pa_train)['img_fn'].apply(tile_id_from_fn))
+    tile_ids_by_state['pittsburgh_pa-2010']['train'] = list(pd.read_csv(fp_pa_train)['img_fn'].apply(tile_id_from_fn))
+    tile_ids_by_state['pittsburgh_pa-2010']['val'] = list(pd.read_csv(fp_pa_val)['img_fn'].apply(tile_id_from_fn))
     
     cooccurrence_mapping_matrix_fns = {
         'pittsburgh_pa-2010': f'{cooc_matrix_dir}/avg_nlcd_pa_whole_city_label_cooccurrences.npy',
