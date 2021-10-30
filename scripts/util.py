@@ -108,44 +108,46 @@ def bag(p, radius):
 
 
 
-# # todo: this should really go in a general eval file
-# def per_class_iou(y_true, y_pred, class_vals):
-
-#     # For each of the four classes compute the intersection and union 
-#     intersections = []
-#     unions = []
-#     ious = []
-#     for class_val in class_vals:
-#         mask_true = np.array(y_true == class_val)
-#         mask_pred = np.array(y_pred == class_val)
-
-#         intersection = np.logical_and(mask_pred,mask_true).sum()
-#         # todo change this to a max
-#         union = np.logical_or(mask_pred,mask_true).sum()
-
-#         intersections.append(intersection)
-#         unions.append(union)
-
-#         if union != 0:
-#             ious.append(intersection / union)
-#         else:
-#             ious.append(np.nan)
-#     return ious, intersections, unions
-
-# def aggregate_ious(ints_all, unions_all):
-#     n_classes = len(ints_all[0])
-#     ints_summed = []
-#     unions_summed = []
-#     ious_summed = []
+def per_class_iou(y_true, y_pred, class_vals):
+    """Calculate the IoUs for each class in class_vals."""
     
-#     for c in range(n_classes):
-#         intersection =np.sum([x[c] for x in ints_all])
-#         union = np.sum([x[c] for x in unions_all])              
-#         ints_summed.append(intersection)
-#         unions_summed.append(union)
-#         ious_summed.append(intersection/union)
+    # For each of the four classes compute the intersection and union 
+    intersections = []
+    unions = []
+    ious = []
+    for class_val in class_vals:
+        mask_true = np.array(y_true == class_val)
+        mask_pred = np.array(y_pred == class_val)
+
+        intersection = np.logical_and(mask_pred,mask_true).sum()
+        # todo change this to a max
+        union = np.logical_or(mask_pred,mask_true).sum()
+
+        intersections.append(intersection)
+        unions.append(union)
+
+        if union != 0:
+            ious.append(intersection / union)
+        else:
+            ious.append(np.nan)
+    return ious, intersections, unions
+
+def aggregate_ious(ints_all, unions_all):
+    """Aggregate IoUs across many image instances."""
+    
+    n_classes = len(ints_all[0])
+    ints_summed = []
+    unions_summed = []
+    ious_summed = []
+    
+    for c in range(n_classes):
+        intersection =np.sum([x[c] for x in ints_all])
+        union = np.sum([x[c] for x in unions_all])              
+        ints_summed.append(intersection)
+        unions_summed.append(union)
+        ious_summed.append(intersection/union)
         
-#     return ious_summed, ints_summed, unions_summed
+    return ious_summed, ints_summed, unions_summed
 
 
 
