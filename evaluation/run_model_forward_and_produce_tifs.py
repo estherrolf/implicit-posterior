@@ -9,8 +9,9 @@ import torch
 import torch.nn.functional as F
 
 sys.path.append("/home/esther/torchgeo")
-from TileDatasetsModified import TileInferenceDataset
 from torchgeo.models import FCN_larger_modified, FCN_modified
+
+from TileDatasetsModified import TileInferenceDataset
 
 NUM_CLASSES = 5
 NUM_FILTERS = 128
