@@ -263,9 +263,7 @@ def make_legend_figure(lc_type):
     ax.get_xaxis().set_visible(False)
     ax.get_yaxis().set_visible(False)
     ax.legend(patches, class_names, loc='upper left', fontsize=17, frameon=False)
-  #  plt.show()
-   # plt.close()
-    
+
     
 def vis_lc(r, lc_type, renorm=True, reindexed=True):
     colors = lc_colors[lc_type]
