@@ -46,4 +46,8 @@ To evaluate the EnviroAtlas predictions in each state:
 1. Run  `save_predictions_envirotlas.py` from the `evaluation` folder.
 2. Evaluate the predictions against the high resolution labels with `evaluation/evaluate_enviroatlas_hr_models.ipynb` (for the models trained with high resolution label data) and `evaluation/evaluate_qr_models_enviroatlas.ipynb` (for the QR and RQ models).
 
+To visualize the outputs, use the notebooks in `evaluation/visualization.`
+
+Notebooks to generate the figures in the paper are in the `figure_notebooks` folder.
+
 
