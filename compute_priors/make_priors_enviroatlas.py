@@ -26,8 +26,8 @@ from make_priors_chesapeake import compile_and_save_one_hot_nlcd_cc, compile_and
     
 
 cooc_matrix_dir = "/home/esther/qr_for_landcover/compute_priors/cooccurrence_matrices/enviroatlas"
-ea_data_dir = '/home/esther/torchgeo_data/enviroatlas'
 ea_data_splits_dir = '/home/esther/qr_for_landcover/enviroatlas_data_splits'
+ea_data_dir = '/home/esther/torchgeo_data/enviroatlas'
 
 
 def condense_ea11_to_ea6_cooccurrance(cooc_matrix_in, keep_idxs =[0,1,2,3,4,6]):
@@ -200,7 +200,6 @@ if __name__ == "__main__":
       
     tile_id_from_fn = lambda x: x.split('/')[-1][2:12]
 
-    
     # compile the tile ids for each set
     tile_ids_by_state = {}
     for city_state_yr in cities_all:

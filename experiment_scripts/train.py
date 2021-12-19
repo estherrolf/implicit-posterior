@@ -16,7 +16,7 @@ from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 import sys
 sys.path.append('/home/esther/torchgeo')
-
+conf_dir = '/home/esther/qr_for_landcover/conf'
 
 from torchgeo.trainers import (
    EnviroatlasDataModule,
@@ -66,7 +66,7 @@ def set_up_omegaconf() -> DictConfig:
         FileNotFoundError: when ``config_file`` does not exist
         ValueError: when ``task.name`` is not a valid task
     """
-    conf = OmegaConf.load(f"conf/defaults.yaml")
+    conf = OmegaConf.load(f"{conf_dir}/defaults.yaml")
     command_line_conf = OmegaConf.from_cli()
 
     if "config_file" in command_line_conf:
@@ -84,7 +84,7 @@ def set_up_omegaconf() -> DictConfig:
     # These OmegaConf structured configs enforce a schema at runtime, see:
     # https://omegaconf.readthedocs.io/en/2.0_branch/structured_config.html#merging-with-other-configs
     task_name = conf.experiment.task
-    task_config_fn = os.path.join("conf", "task_defaults", f"{task_name}.yaml")
+    task_config_fn = os.path.join(conf_dir, "task_defaults", f"{task_name}.yaml")
     if task_name == "test":
         task_conf = OmegaConf.create()
     elif os.path.exists(task_config_fn):

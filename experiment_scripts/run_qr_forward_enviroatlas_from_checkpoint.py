@@ -14,12 +14,13 @@ TEST_MODE = False  # if False then print out the commands to be run, if True the
 
 # Hyperparameter options
 training_set_options = ['phoenix_az-2010_1m',
-                        'austin_tx-2012_1m',
-                        'durham_nc-2012_1m', 
-                        'pittsburgh_pa-2010_1m'
+                       # 'austin_tx-2012_1m',
+                       # 'durham_nc-2012_1m', 
+                       # 'pittsburgh_pa-2010_1m'
                        ]
 model_options = ['fcn']
-lr_options = [1e-5]
+#lr_options = [1e-5]
+lr_options = [1e-4]
 
 loss_options = ['qr_forward', 'qr_reverse']
 
@@ -58,10 +59,10 @@ def main():
         
         
         model_checkpoint = "/home/esther/torchgeo/output/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
-        output_dir = "output/ea_from_pittsburgh_model"
+        output_dir = "../output/ea_from_pittsburgh_model"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_on_prior.yml"
+            "python train.py program.overwrite=True config_file=../conf/enviroatlas_learn_on_prior.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.learning_rate={lr}"
@@ -77,7 +78,7 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/ea_from_pittsburgh"
+            + f" program.log_dir=../logs/ea_from_pittsburgh"
             + " program.data_dir=/home/esther/torchgeo_data/enviroatlas"
             + " trainer.gpus=[GPU]"
         )
