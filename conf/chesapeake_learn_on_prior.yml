@@ -1,7 +1,7 @@
 trainer:
   gpus: 1  # single GPU training
   min_epochs: 20
-  max_epochs: 100
+  max_epochs: 200
   benchmark: True
 
 program:
@@ -26,5 +26,7 @@ experiment:
     patches_per_tile: 400
     num_workers: 4
     train_state: "de"
-    condense_barren: True
     train_set: "val"
+    use_prior_labels: True
+    class_set: 5
+    prior_smoothing_constant: 1e-4
