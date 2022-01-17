@@ -7,8 +7,11 @@ The repository is still in progress, as noted by the TODO's below. Thank you for
 
 TODO - link to paper once available
 
-TODO - explain how to make the python environment.
+### Setting up the environment
+ 1. From the qr_for_landcover directory run `conda env create -f environment.yml`
+ 2. Activate the environment by running `conda activate qr_for_landcover`
 
+### Downloading datasets
 TODO - how to download the datasets from torchgeo.
 
 ### Constructing the priors:
