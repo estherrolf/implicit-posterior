@@ -9,7 +9,7 @@ TODO - link to paper once available
 
 ### Setting up the environment
  1. From the qr_for_landcover directory run `conda env create -f environment.yml`
- 2. Activate the environment by running `conda activate qr_for_landcover`
+ 2. Activate the environment by running `conda activate qr_torchgeo`
 
 ### Downloading datasets
 TODO - how to download the datasets from torchgeo.
