@@ -13,7 +13,7 @@ GPUS = [0]
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options
-training_set_options = ["pa","ny","ny+pa"]
+training_set_options = ["ny+pa",'ny','pa'] 
 model_options = ['fcn']
 lr_options = [1e-4]
 
@@ -27,10 +27,10 @@ train_set, val_set, test_set = ['test', 'test', 'test']
 def do_work(work, gpu_idx):
     while not work.empty():
         experiment = work.get()
-        experiment = experiment.replace("GPU", str(gpu_idx))
+        experiment[-1] = experiment[-1].replace("GPU", str(gpu_idx))
         print(experiment)
         if not TEST_MODE:
-            subprocess.call(experiment.split(" "))
+            subprocess.call(experiment)#.split(" "))
     return True
 
 
@@ -49,29 +49,36 @@ def main():
     ):
         experiment_name = f"{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
 
-        output_dir = "output/chesepeake_north_qr"
-
-        command = (
-            "python train.py program.overwrite=True config_file=conf/chesapeake_learn_on_prior.yml"
-            + f" experiment.name={experiment_name}"
-            + f" experiment.module.segmentation_model={model}"
-            + f" experiment.module.learning_rate={lr}"
-            + f" experiment.module.loss={loss}"
-            + f" experiment.module.num_filters=128"
-            + f" experiment.datamodule.batch_size=128"
-            + f" expertiment.datamodule.patches_per_tile=400"
-            + f" experiment.module.output_smooth={additive_smooth}"
-            + f" experiment.datamodule.prior_version={prior_version}"
-            + f" experiment.datamodule.prior_smoothing_constant={prior_smooth}"
-            + f" experiment.datamodule.states_str={states_str}"
-            + f" experiment.datamodule.train_set={train_set}"
-            + f" experiment.datamodule.val_set={val_set}"
-            + f" experiment.datamodule.test_set={test_set}"
-            + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/chesapeake_north_qr"
-            + " trainer.gpus=[GPU]"
-        )
-        command = command.strip()
+        output_dir = "../output_rep/chesepeake_north_qr"
+          
+        train_splits = [f'{state}-{train_set}' for state in states_str.split('+')]
+        val_splits = [f'{state}-{val_set}' for state in states_str.split('+')]
+        test_splits = [f'{state}-{test_set}' for state in states_str.split('+')]
+        
+        if len(states_str.split('+')) == 1:
+            patches_per_tile = 400
+        elif len(states_str.split('+')) == 2:
+            patches_per_tile = 200
+        command = "python train.py program.overwrite=True config_file=../conf/chesapeake_learn_on_prior.yml".split() + \
+        [
+            f"experiment.name={experiment_name}",
+            f"experiment.module.segmentation_model={model}",
+            f"experiment.module.learning_rate={lr}",
+            f"experiment.module.loss={loss}",
+            f"experiment.module.num_filters=128",
+            f"experiment.datamodule.batch_size=128",
+            f"experiment.datamodule.patches_per_tile={patches_per_tile}",
+            f"experiment.module.output_smooth={additive_smooth}",
+            f"experiment.datamodule.prior_smoothing_constant={prior_smooth}",
+            f"experiment.datamodule.train_splits={train_splits}",
+            f"experiment.datamodule.val_splits={val_splits}",
+            f"experiment.datamodule.test_splits={test_splits}",
+            f"program.output_dir={output_dir}",
+            f"program.log_dir=../logs/chesapeake_north_qr_rep",
+            "trainer.max_epochs=200",
+            "trainer.gpus=[GPU]"
+        ]
+        #command = command.strip()
 
         work.put(command)
 
@@ -88,3 +95,5 @@ def main():
 if __name__ == "__main__":
     main()
 
+
+    
