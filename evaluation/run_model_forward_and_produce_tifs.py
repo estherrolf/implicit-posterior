@@ -8,9 +8,9 @@ import rasterio
 import torch
 import torch.nn.functional as F
 
-sys.path.append("/home/esther/torchgeo")
-from torchgeo.models import FCN_larger_modified, FCN_modified
-
+sys.path.append("/home/esther/qr_for_landcover/scripts")
+from fcn import FCN_larger_modified, FCN_modified
+# local import
 from TileDatasetsModified import TileInferenceDataset
 
 NUM_CLASSES = 5

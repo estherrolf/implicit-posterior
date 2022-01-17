@@ -7,12 +7,15 @@ import sys
 
 import run_model_forward_and_produce_tifs 
 
-torchgeo_output_dir = '/home/esther/torchgeo/output'
+torchgeo_output_dir = '/home/esther/qr_for_landcover/output_rep'
 torchgeo_data_dir = '/home/esther/torchgeo_data'
-torchgeo_pred_dir = '/home/esther/torchgeo_predictions'
+torchgeo_pred_dir = '/home/esther/torchgeo_predictions_rep'
 
 
-states_to_eval = ['ny', 'pa', 'ny+pa']
+states_to_eval = ['ny', 
+                  'pa'
+                  'ny+pa'
+                 ]
                        
 loss_to_eval_options = ['qr_forward', 'qr_reverse']
 prior_version = 'from_cooccurrences_101_31_no_osm_no_buildings'
