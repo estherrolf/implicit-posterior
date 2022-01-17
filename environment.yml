@@ -1,0 +1,24 @@
+name: torchgeo
+channels:
+  - conda-forge
+  - Microsoft
+  - defaults
+  - pytorch
+dependencies:
+  - python[version='>=3.6']
+  - pyproj
+  - cudatoolkit
+  - rarfile
+  - pytorch-gpu
+  - rasterio
+  - numpy
+  - pycocotools
+  - torchvision
+  - fiona
+  - shapely
+  - einops
+  - h5py
+  - pip
+  - pandas
+  - pytorch-lightning
+prefix: /anaconda/envs/torchgeo
