@@ -7,6 +7,7 @@
 """torchgeo model training script."""
 
 import os
+import sys
 from typing import Any, Dict, Tuple, Type, cast
 
 import pytorch_lightning as pl
@@ -18,30 +19,46 @@ import sys
 sys.path.append('/home/esther/torchgeo')
 conf_dir = '/home/esther/qr_for_landcover/conf'
 
-from torchgeo.trainers import (
-   EnviroatlasDataModule,
-   EnviroatlasSegmentationTask,
-   EnviroatlasPriorDataModule,
-   EnviroatlasLearnPriorTask,
-   EnviroatlasLearnPriorDataModule,
-   EnviroatlasPriorSegmentationTask,
-   ChesapeakeCVPRDataModule,
-   ChesapeakeCVPRSegmentationTask,
-   ChesapeakeCVPRPriorDataModule,
-   ChesapeakeCVPRPriorSegmentationTask,
-)
+# todo remove local import once pip install works
+sys.path.append('/home/esther/torchgeo')
+
+# import datamodules from torchgeo
+# from torchgeo.datasets import (
+# #   EnviroatlasDataModule,
+# #   EnviroatlasPriorDataModule,
+# #   EnviroatlasLearnPriorDataModule,
+# #   ChesapeakeCVPRDataModule,
+# #   ChesapeakeCVPRPriorDataModule,
+# #   ChesapeakeCVPRPriorSegmentationTask,
+# )
+
+#from torchgeo.trainers import ChesapeakeCVPRSegmentationTask
+
+# import trainers from local code
+sys.path.append('../trainers')
+from chesapeake_learn_on_prior import ChesapeakeCVPRPriorSegmentationTask
+#from chesapeake_learn_on_prior import ChesapeakeCVPRPriorSegmentationTask
+
+sys.path.append('../datamodules')
+from chesapeake_cvpr_prior import ChesapeakeCVPRPriorDataModule
+
+#   EnviroatlasLearnPriorTask,
+#   EnviroatlasSegmentationTask,
+#   EnviroatlasPriorSegmentationTask,
+
 
 TASK_TO_MODULES_MAPPING: Dict[
     str, Tuple[Type[pl.LightningModule], Type[pl.LightningDataModule]]
 ] = {
-    "enviroatlas": (EnviroatlasSegmentationTask, EnviroatlasDataModule),
-    "enviroatlas_learn_on_prior": (EnviroatlasPriorSegmentationTask, 
-                                  EnviroatlasPriorDataModule),
-    "enviroatlas_learn_the_prior": (EnviroatlasLearnPriorTask,
-                                    EnviroatlasLearnPriorDataModule),
     "chesapeake_learn_on_prior": (ChesapeakeCVPRPriorSegmentationTask,
-                                  ChesapeakeCVPRPriorDataModule),
-    "chesapeake_cvpr": (ChesapeakeCVPRSegmentationTask, ChesapeakeCVPRDataModule),
+                                  ChesapeakeCVPRPriorDataModule
+                                 ),
+#     "chesapeake_cvpr": (ChesapeakeCVPRSegmentationTask, ChesapeakeCVPRDataModule),
+#     "enviroatlas": (EnviroatlasSegmentationTask, EnviroatlasDataModule),
+#     "enviroatlas_learn_on_prior": (EnviroatlasPriorSegmentationTask, 
+#                                   EnviroatlasPriorDataModule),
+#     "enviroatlas_learn_the_prior": (EnviroatlasLearnPriorTask,
+#                                     EnviroatlasLearnPriorDataModule),
 }
 
 

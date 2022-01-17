@@ -15,7 +15,7 @@ TEST_MODE = False  # if False then print out the commands to be run, if True the
 # Hyperparameter options
 training_set_options = ["de"]
 model_options = ['fcn']
-lr_options = [1e-3,1e-4,1e-5]
+lr_options = [1e-4,1e-5,1e-3]
 
 loss_options = ['qr_forward', 'qr_reverse']
 prior_version_options = [
@@ -51,9 +51,14 @@ def main():
     ):
         experiment_name = f"{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
 
+        
+        train_splits = [f'{state}-{train_set}' for state in states_str.split('+')]
+        val_splits = [f'{state}-{val_set}' for state in states_str.split('+')]
+        test_splits = [f'{state}-{test_set}' for state in states_str.split('+')]
+        
         output_dir = "../output/hp_search_de/hp_search_de"
         command = (
-            f"python train.py program.overwrite=True config_file=conf/chesapeake_learn_on_prior.yml"
+            f"python train.py program.overwrite=True config_file=../conf/chesapeake_learn_on_prior.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.learning_rate={lr}"
@@ -62,14 +67,12 @@ def main():
             + f" experiment.datamodule.batch_size=128"
             + f" expertiment.datamodule.patches_per_tile=400"
             + f" experiment.module.output_smooth={additive_smooth}"
-            + f" experiment.datamodule.prior_version={prior_version}"
             + f" experiment.datamodule.prior_smoothing_constant={prior_smooth}"
-            + f" experiment.datamodule.states_str={states_str}"
-            + f" experiment.datamodule.train_set={train_set}"
-            + f" experiment.datamodule.val_set={val_set}"
-            + f" experiment.datamodule.test_set={test_set}"
+            + f" experiment.datamodule.train_splits={train_splits}"
+            + f" experiment.datamodule.val_splits={val_splits}"
+            + f" experiment.datamodule.test_splits={test_splits}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/hp_search_de/hp_gridsearch_de"
+            + f" program.log_dir=../logs/hp_search_de/hp_gridsearch_de"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()
