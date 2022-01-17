@@ -1,4 +1,4 @@
-name: torchgeo
+name: qr_torchgeo
 channels:
   - conda-forge
   - Microsoft
@@ -21,4 +21,5 @@ dependencies:
   - pip
   - pandas
   - pytorch-lightning
-prefix: /anaconda/envs/torchgeo
+  - torchgeo
+prefix: /anaconda/envs/qr_torchgeo
