@@ -16,11 +16,8 @@ from pytorch_lightning import loggers as pl_loggers
 from pytorch_lightning.callbacks import EarlyStopping, ModelCheckpoint
 
 import sys
-sys.path.append('/home/esther/torchgeo')
-conf_dir = '/home/esther/qr_for_landcover/conf'
+conf_dir = '../conf'
 
-# todo remove local import once pip install works
-sys.path.append('/home/esther/torchgeo')
 
 # import datamodules from torchgeo
 # from torchgeo.datasets import (
@@ -83,7 +80,7 @@ def set_up_omegaconf() -> DictConfig:
         FileNotFoundError: when ``config_file`` does not exist
         ValueError: when ``task.name`` is not a valid task
     """
-    conf = OmegaConf.load(f"{conf_dir}/defaults.yaml")
+    conf = OmegaConf.load(os.path.join(conf_dir, "defaults.yaml"))
     command_line_conf = OmegaConf.from_cli()
 
     if "config_file" in command_line_conf:
