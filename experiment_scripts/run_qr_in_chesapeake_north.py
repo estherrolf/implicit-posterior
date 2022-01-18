@@ -30,7 +30,7 @@ def do_work(work, gpu_idx):
         experiment[-1] = experiment[-1].replace("GPU", str(gpu_idx))
         print(experiment)
         if not TEST_MODE:
-            subprocess.call(experiment)#.split(" "))
+            subprocess.call(experiment)
     return True
 
 
