@@ -23,12 +23,10 @@ from torchvision.transforms import Compose
 
 # todo remove local import once pip install works
 import sys
-sys.path.append('/home/esther/torchgeo')
-from torchgeo.losses import loss_on_prior_reversed_kl_simple, loss_on_prior_simple
-sys.path.append('../scripts')
-from fcn import FCN_modified, FCN_modified_test_batchnorm
-#from ..samplers import GridGeoSampler, RandomBatchGeoSampler
 
+sys.path.append('../scripts')
+from qr_losses import loss_on_prior_reversed_kl_simple, loss_on_prior_simple
+from fcn import FCN_modified
 
 # https://github.com/pytorch/pytorch/issues/60979
 # https://github.com/pytorch/pytorch/pull/61045
@@ -134,17 +132,7 @@ class ChesapeakeCVPRPriorSegmentationTask(LightningModule):
             )
             # 5 pixels per side
             self.pad = 5
-        elif kwargs["segmentation_model"] == "fcn_batchnorm":
-            self.model = FCN_modified_test_batchnorm(
-                in_channels=4,
-                classes=n_classes,
-                num_filters=kwargs["num_filters"],
-                output_smooth=kwargs["output_smooth"],
-                log_outputs=False,
-            )
-            # 5 pixels per side
-            self.pad = 5    
-            
+
         else:
             raise ValueError(
                 f"Model type '{kwargs['segmentation_model']}' is not valid."

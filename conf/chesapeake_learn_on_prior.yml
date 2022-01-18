@@ -5,8 +5,8 @@ trainer:
   benchmark: True
 
 program:
-   data_dir: '/home/esther/torchgeo_data/cvpr_chesapeake_landcover'
-   overwrite: True
+  data_dir: '/torchgeo_data/cvpr_chesapeake_landcover'
+  overwrite: True
 
 experiment:
   task: "chesapeake_learn_on_prior"

@@ -9,7 +9,7 @@ import subprocess
 from multiprocessing import Process, Queue
 
 # list of GPU IDs that we want to use, one job will be started for every ID in the list
-GPUS = [0]
+GPUS = [0,1,2,3]
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options
@@ -30,7 +30,7 @@ def do_work(work, gpu_idx):
         experiment[-1] = experiment[-1].replace("GPU", str(gpu_idx))
         print(experiment)
         if not TEST_MODE:
-            subprocess.call(experiment)#.split(" "))
+            subprocess.call(experiment)
     return True
 
 

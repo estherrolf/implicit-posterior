@@ -56,7 +56,7 @@ def main():
         val_splits = [f'{state}-{val_set}' for state in states_str.split('+')]
         test_splits = [f'{state}-{test_set}' for state in states_str.split('+')]
         
-        output_dir = "../output/hp_search_de/hp_search_de"
+        output_dir = "../output_rep/hp_search_de/hp_search_de"
         command = (
             f"python train.py program.overwrite=True config_file=../conf/chesapeake_learn_on_prior.yml"
             + f" experiment.name={experiment_name}"
@@ -72,7 +72,7 @@ def main():
             + f" experiment.datamodule.val_splits={val_splits}"
             + f" experiment.datamodule.test_splits={test_splits}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=../logs/hp_search_de/hp_gridsearch_de"
+            + f" program.log_dir=../logs/hp_gridsearch_de"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()
