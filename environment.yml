@@ -6,20 +6,22 @@ channels:
   - pytorch
 dependencies:
   - python[version='>=3.6']
-  - pyproj
+  - pyproj>=2.2
   - cudatoolkit
-  - rarfile
-  - pytorch-gpu
-  - rasterio
+  - rarfile>=3
+  - pytorch>=1.7
+  - rasterio>=1.0.16
   - numpy
   - pycocotools
-  - torchvision
-  - fiona
-  - shapely
+  - torchvision>=0.10
+  - fiona>=1.5
+  - shapely>=1.3
   - einops
   - h5py
-  - pip
   - pandas
-  - pytorch-lightning
-  - torchgeo
+  - pip
+  - setuptools>=60.5
+  - pytorch-lightning>=1.3
+  - pip:
+      - torchgeo
 prefix: /anaconda/envs/qr_torchgeo
