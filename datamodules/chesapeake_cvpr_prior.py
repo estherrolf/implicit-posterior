@@ -5,8 +5,8 @@ import torch.nn.functional as F
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
 
-sys.path.append('/home/esther/torchgeo')
-from torchgeo.datasets import ChesapeakeCVPR, ChesapeakeCVPRDataModule
+from torchgeo.datasets import ChesapeakeCVPR
+from torchgeo.datamodules import ChesapeakeCVPRDataModule
 from torchgeo.datasets.utils import stack_samples
 from torchgeo.samplers.single import GridGeoSampler
 
