@@ -9,7 +9,7 @@ import subprocess
 from multiprocessing import Process, Queue
 
 # list of GPU IDs that we want to use, one job will be started for every ID in the list
-GPUS = [0,1,2,3]
+GPUS = [0]
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options

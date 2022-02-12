@@ -171,7 +171,7 @@ class ChesapeakeCVPRPriorDataModule(ChesapeakeCVPRDataModule):
         )
         return DataLoader(
             self.test_dataset,
-            batch_size=16,
+            batch_size=64,
             sampler=sampler,
             num_workers=self.num_workers,
             collate_fn=stack_samples,
