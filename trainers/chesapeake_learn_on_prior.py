@@ -26,7 +26,7 @@ import sys
 
 sys.path.append('../scripts')
 from qr_losses import loss_on_prior_reversed_kl_simple, loss_on_prior_simple
-from fcn import FCN_modified
+from fcn import FCN_modified, FCN_modified_batchnorm
 
 # https://github.com/pytorch/pytorch/issues/60979
 # https://github.com/pytorch/pytorch/pull/61045
@@ -132,6 +132,18 @@ class ChesapeakeCVPRPriorSegmentationTask(LightningModule):
             )
             # 5 pixels per side
             self.pad = 5
+            
+        elif kwargs["segmentation_model"] == "fcn_batchnorm":
+            self.model = FCN_modified_batchnorm(
+                in_channels=4,
+                classes=n_classes,
+                num_filters=kwargs["num_filters"],
+                output_smooth=kwargs["output_smooth"],
+                log_outputs=False,
+            )
+            # 5 pixels per side
+            self.pad = 5
+            
 
         else:
             raise ValueError(
