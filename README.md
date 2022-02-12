@@ -8,7 +8,7 @@ The repository is still in progress (as the EnviroAtlas experiment protocol gets
 ### Setting up the environment
  1. From the qr_for_landcover directory run `conda env create -f environment.yml`
  2. Activate the environment by running `conda activate qr_torchgeo`
- 3. Update to the most recent in-development torchgeo by running `pip install torchgeo`.
+ 3. Update to the most recent torchgeo by running `python -m pip install git+https://github.com/microsoft/torchgeo`.
 
 ### Downloading datasets
 The default parameters in this repo will assume you have data stored in ~/torchgeo_data. To do this, you can follow these steps:
