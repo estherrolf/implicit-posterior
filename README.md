@@ -31,6 +31,7 @@ To construct the priors for the Chesapeake dataset, first make sure you have the
 Note that you'll need to change the paths to the data directories at the top of each script. The notebooks in the `qr_for_landcover/compute_priors` will visualize these outputs. 
 
 To construct the priors for the EnviroAtlas dataset, theres a few additional steps to download the additional from the original data sources. The quick way is to download the data in the zip file from torchgeo (see above). 
+
 0. TODO: explain gathering the raw data that gets input to the priors.
 1. The cooccurrence matrices for the EnviroAtlas data are provided in this repo, so you don't have to download the full data to use them. If you're interested, the `compute_cooccurrence_matrices_envirotlas.py` is the script to generate them from the full EnviroAtlas data. 
 2. `make_priors_envirotlas.py` makes the priors and saves them in the folder from torchgeo.
