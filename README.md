@@ -56,7 +56,7 @@ EnviroAtlas (in progress - integrating with torchgeo, currently not functional):
 
 ### Evaluating and Visualizing results:
 To evaluate the Chesapeake Conservancy predictions in NY and PA:
-1. Run `save_predictions_chesapeake.py` from the `evaluation` folder.
+1. Run `save_predictions_chesapeake.py` or `save_predictions_enviroatlas.py` from the `evaluation` folder. If you only want to evaluate some enviroatlas experiments, you'll have do comment out some lines in that script.
 2. Evaluate the predictions against the high resolution labels with `evaluation/evaluate_qr_models_chesapeake.ipynb`
 
 To evaluate the EnviroAtlas predictions in each state:
