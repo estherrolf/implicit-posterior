@@ -21,9 +21,7 @@ from torch.utils.tensorboard import SummaryWriter  # type: ignore[attr-defined]
 from torchmetrics import Accuracy, IoU
 from torchvision.transforms import Compose
 
-# todo remove local import once pip install works
 import sys
-
 sys.path.append('../scripts')
 from qr_losses import loss_on_prior_reversed_kl_simple, loss_on_prior_simple
 from fcn import FCN_modified, FCN_modified_batchnorm
