@@ -1,18 +1,18 @@
 trainer:
   gpus: 1  # single GPU training
   min_epochs: 20
-  max_epochs: 100
+  max_epochs: 200
   benchmark: True
 
 program:
-   data_dir: '/home/esther/torchgeo_data/enviroatlas'
+   data_dir: '/datadrive/esther/torchgeo_data'
    overwrite: True
     
 experiment:
   task: "enviroatlas"
   name: "enviroatlas_train_on_highres"
   module:
-    loss: "qr_forward"  # cross entropy loss
+    loss: "ce"  # cross entropy loss
     segmentation_model: "fcn"
     activation_layer: "logsoftmax" 
     optimizer: "adamw"
@@ -20,10 +20,7 @@ experiment:
     output_smooth: 1e-4
     learning_rate_schedule_patience: 4
   datamodule:
-    batch_size: 64
+    batch_size: 128
     patch_size: 128
     patches_per_tile: 800
     num_workers: 4
-  #  train_state: "de"
-   # condense_barren: True
-  #  train_set: "val"
