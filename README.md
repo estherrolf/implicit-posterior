@@ -8,7 +8,7 @@ The repository is still in progress (as the EnviroAtlas experiment protocol gets
 ### Setting up the environment
  1. From the qr_for_landcover directory run `conda env create -f environment.yml`
  2. Activate the environment by running `conda activate qr_torchgeo`
- 3. Update to the most recent in-development torchgeo by running `pip install torchgeo`.
+ 3. Update to the most recent torchgeo by running `python -m pip install git+https://github.com/microsoft/torchgeo`.
 
 ### Downloading datasets
 The default parameters in this repo will assume you have data stored in ~/torchgeo_data. To do this, you can follow these steps:
@@ -38,7 +38,7 @@ To construct the priors for the EnviroAtlas dataset, theres a few additional ste
 Note that you'll need to change the paths to the data directories at the top of each script. The notebooks in the `qr_for_landcover/compute_priors` will visualize these outputs. 
 
 To learn the Enviroatlas prior from its inputs: 
-1. First run 'learn_the_prior_enviroatlas.py` from the `experiment_scripts` folder. 
+1. First run `earn_the_prior_enviroatlas.py` from the `experiment_scripts` folder. 
 2. To run the model forward and save these learned priors, from the `evaluation` folder run `save_learned_priors.py`
 3. You can visualize the learned priors with `evaluation/visualize_output/visualize_learned_priors_ea.ipynb`.
 
@@ -56,7 +56,7 @@ EnviroAtlas (in progress - integrating with torchgeo, currently not functional):
 
 ### Evaluating and Visualizing results:
 To evaluate the Chesapeake Conservancy predictions in NY and PA:
-1. Run `save_predictions_chesapeake.py` from the `evaluation` folder.
+1. Run `save_predictions_chesapeake.py` or `save_predictions_enviroatlas.py` from the `evaluation` folder. If you only want to evaluate some enviroatlas experiments, you'll have do comment out some lines in that script.
 2. Evaluate the predictions against the high resolution labels with `evaluation/evaluate_qr_models_chesapeake.ipynb`
 
 To evaluate the EnviroAtlas predictions in each state:
