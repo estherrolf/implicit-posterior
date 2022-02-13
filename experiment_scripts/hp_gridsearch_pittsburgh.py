@@ -9,15 +9,15 @@ import subprocess
 from multiprocessing import Process, Queue
 
 # list of GPU IDs that we want to use, one job will be started for every ID in the list
-GPUS = [0] 
+GPUS = [1] 
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options
 training_set_options = ["pittsburgh_pa-2010_1m"]
 model_options = ['fcn']
-lr_options = [1e-3,1e-4,1e-5,1e-2]
+lr_options = [1e-5,1e-4,1e-3,1e-2]
 
-loss_options = ['nll']
+loss_options = ['ce']
 additive_smooth_options = [1e-8]
 
 train_set, val_set, test_set = ['train', 'val', 'val']
@@ -45,10 +45,10 @@ def main():
     ):
         experiment_name = f"{states_str}_{model}_{lr}_{loss}"
 
-        output_dir = "output/hp_gridsearch_pittsburgh"
+        output_dir = "../output_rep/hp_gridsearch_pittsburgh/"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas.yml"
+            "python train.py program.overwrite=True config_file=../conf/enviroatlas.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.learning_rate={lr}"
@@ -61,9 +61,8 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/hp_gridsearch_pittsburgh"
-            + " program.data_dir=/home/esther/torchgeo_data/enviroatlas"
-            + " trainer.gpus='GPU'"
+            + f" program.log_dir=../logs/hp_gridsearch_pittsburgh"
+            + " trainer.gpus=[GPU]"
         )
         command = command.strip()
 
