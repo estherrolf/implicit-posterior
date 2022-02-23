@@ -123,7 +123,7 @@ for run_dir in run_dirs:
                     output_fns[:],
                     evaluating_learned_prior=True,
                     model=model_type,
-                    gpu=2,
+                    gpu=0,
                     overwrite=True,
                     model_kwargs=model_kwargs,
                     include_prior_as_datalayer=True,

@@ -118,7 +118,7 @@ for run_dir in run_dirs:
             run_model_forward_and_produce_tifs.run_through_tiles(model_ckpt_fp,
                                                                   image_fns[:],
                                                                   output_fns[:],
-                                                                  gpu = 3,
+                                                                  gpu = 0,
                                                                   overwrite=True,
                                                                   model_kwargs=model_kwargs,
                                                                   include_prior_as_datalayer=include_prior_as_datalayer,
