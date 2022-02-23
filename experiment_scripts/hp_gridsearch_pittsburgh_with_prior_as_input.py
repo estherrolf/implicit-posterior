@@ -9,15 +9,15 @@ import subprocess
 from multiprocessing import Process, Queue
 
 # list of GPU IDs that we want to use, one job will be started for every ID in the list
-GPUS = [2,3] 
+GPUS = [0] 
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options
 training_set_options = ["pittsburgh_pa-2010_1m"]
 model_options = ['fcn']
-lr_options = [1e-5,1e-4,1e-3,1e-2]
+lr_options = [1e-3,1e-4,1e-5,1e-2]
 
-loss_options = ['ce']
+loss_options = ['nll']
 additive_smooth_options = [1e-8]
 
 train_set, val_set, test_set = ['train', 'val', 'val']
@@ -43,7 +43,7 @@ def main():
         loss_options,
         additive_smooth_options,
     ):
-        experiment_name = f"{states_str}_{model}_{lr}_{loss}"
+        experiment_name = f"{states_str}_{model}_{lr}_{loss}_with_prior"
 
         output_dir = "../output_rep/hp_gridsearch_pittsburgh_with_prior_as_input"
 

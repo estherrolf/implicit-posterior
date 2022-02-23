@@ -9,7 +9,7 @@ import subprocess
 from multiprocessing import Process, Queue
 
 # list of GPU IDs that we want to use, one job will be started for every ID in the list
-GPUS = [1] 
+GPUS = [0] 
 TEST_MODE = False  # if False then print out the commands to be run, if True then run
 
 # Hyperparameter options
@@ -52,7 +52,7 @@ def main():
         experiment_name = f"{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
         
 
-        output_dir = "../output_rephp_gridsearch_pittsburgh_qr_from_random"
+        output_dir = "../output_rep/hp_gridsearch_pittsburgh_qr_from_random_val"
 
         command = (
             "python train.py program.overwrite=True config_file=../conf/enviroatlas_learn_on_prior.yml"
@@ -69,7 +69,7 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=../logs/hp_gridsearch_pittsburgh_qr_from_random"
+            + f" program.log_dir=../logs/hp_gridsearch_pittsburgh_qr_from_random_val"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()

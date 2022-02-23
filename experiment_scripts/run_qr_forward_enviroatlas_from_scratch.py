@@ -23,9 +23,11 @@ model_options = ['fcn']
 
 # lr depends on whether you're doing forward/reverse
 
-loss_options = ['qr_forward', 'qr_reverse']
+loss_options = ['qr_forward',
+                'qr_reverse'
+]
 
-prior_version_options = ['from_cooccurrences_101_31']
+prior_version = 'from_cooccurrences_101_31'
 
 additive_smooth_options = [1e-4]
 prior_smooth_options = [1e-4]
@@ -46,32 +48,30 @@ def main():
 
     work = Queue()
 
-    for (states_str, model, loss, prior_version, additive_smooth, prior_smooth) in itertools.product(
+    for (states_str, model, loss, additive_smooth, prior_smooth) in itertools.product(
         training_set_options,
         model_options,
         loss_options,
-        prior_version_options,
         additive_smooth_options,
         prior_smooth_options
     ):
         
         if loss == 'qr_forward':
-            lr = 1e-4
+            lr = 1e-5
         elif loss == 'qr_reverse':
             lr = 1e-3
-        output_dir = "output/ea_from_scratch"
+        output_dir = "../output_rep/ea_qr_from_scratch_rep"
         
         experiment_name = f"{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_on_prior.yml"
+            "python train.py program.overwrite=True config_file=../conf/enviroatlas_learn_on_prior.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.learning_rate={lr}"
             + f" experiment.module.loss={loss}"
             + f" experiment.module.num_filters=128"
             + f" experiment.datamodule.batch_size=128"
-            + f" experiment.datamodule.prior_version={prior_version}"
             + f" experiment.datamodule.prior_smoothing_constant={prior_smooth}"
             + f" experiment.module.output_smooth={additive_smooth}"
             + f" experiment.datamodule.states_str={states_str}"
@@ -79,8 +79,7 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/ea_from_scratch"
-            + " program.data_dir=/home/esther/torchgeo_data/enviroatlas"
+            + f" program.log_dir=../logs/ea_qr_from_scratch_rep"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()
