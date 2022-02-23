@@ -74,7 +74,7 @@ def main():
             f"experiment.datamodule.val_splits={val_splits}",
             f"experiment.datamodule.test_splits={test_splits}",
             f"program.output_dir={output_dir}",
-            f"program.log_dir=../logs/chesapeake_north_qr_rep1",
+            f"program.log_dir=../logs/chesapeake_north_qr_rep",
             "trainer.max_epochs=200",
             "trainer.gpus=[GPU]"
         ]
