@@ -12,7 +12,7 @@ experiment:
   task: "enviroatlas_learn_on_prior"
   name: "enviroatlas_train_on_prior"
   module:
-    loss: "qr_forward"  # cross entropy loss
+    loss: "qr_forward"  
     segmentation_model: "fcn"
     optimizer: "adamw"
     learning_rate: 1e-3

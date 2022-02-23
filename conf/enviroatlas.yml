@@ -14,7 +14,6 @@ experiment:
   module:
     loss: "ce"  # cross entropy loss
     segmentation_model: "fcn"
-    activation_layer: "logsoftmax" 
     optimizer: "adamw"
     learning_rate: 1e-3
     output_smooth: 1e-4
