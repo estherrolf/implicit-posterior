@@ -83,7 +83,7 @@ class EnviroatlasDataModule(LightningDataModule):
             self.layers = ["naip", "lc"]
         self.patches_per_tile = patches_per_tile
         self.patch_size = patch_size
-        self.original_patch_size = 300
+        self.original_patch_size = patch_size * 3
         self.batch_size = batch_size
         self.num_workers = num_workers
 
@@ -311,6 +311,7 @@ class EnviroatlasDataModule(LightningDataModule):
             sampler=sampler,
             num_workers=self.num_workers,
             collate_fn=stack_samples,
+            shuffle=False
         )
 
     def test_dataloader(self) -> DataLoader[Any]:
@@ -330,4 +331,5 @@ class EnviroatlasDataModule(LightningDataModule):
             sampler=sampler,
             num_workers=self.num_workers,
             collate_fn=stack_samples,
+            shuffle=False
         )

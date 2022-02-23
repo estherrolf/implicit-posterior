@@ -23,11 +23,13 @@ sys.path.append('../trainers')
 from chesapeake_learn_on_prior import ChesapeakeCVPRPriorSegmentationTask
 from enviroatlas import EnviroatlasSegmentationTask
 from enviroatlas_learn_on_prior import EnviroatlasPriorSegmentationTask
+from enviroatlas_learn_the_prior import EnviroatlasLearnPriorTask
 
 sys.path.append('../datamodules')
 from chesapeake_cvpr_prior import ChesapeakeCVPRPriorDataModule
 from enviroatlas_datamodule import EnviroatlasDataModule
 from enviroatlas_prior_datamodule import EnviroatlasPriorDataModule
+from enviroatlas_learn_prior_datamodule import EnviroatlasLearnPriorDataModule
 
 
 TASK_TO_MODULES_MAPPING: Dict[
@@ -39,8 +41,8 @@ TASK_TO_MODULES_MAPPING: Dict[
     "enviroatlas": (EnviroatlasSegmentationTask, EnviroatlasDataModule),
     "enviroatlas_learn_on_prior": (EnviroatlasPriorSegmentationTask, 
                                    EnviroatlasPriorDataModule),
-#     "enviroatlas_learn_the_prior": (EnviroatlasLearnPriorTask,
-#                                     EnviroatlasLearnPriorDataModule),
+    "enviroatlas_learn_the_prior": (EnviroatlasLearnPriorTask,
+                                    EnviroatlasLearnPriorDataModule),
 }
 
 

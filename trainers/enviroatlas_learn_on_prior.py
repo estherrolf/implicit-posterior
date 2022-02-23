@@ -98,6 +98,9 @@ class EnviroatlasPriorSegmentationTask(LightningModule):
 
         self.in_channels = 4
 
+        log_outputs = kwargs["loss"] == 'nll'
+        self.need_to_exp_output = log_outputs
+        
         qr_losses = ["qr_forward", "qr_reverse"]
         self.need_to_add_smoothing = (kwargs["segmentation_model"] != "fcn") and (
             kwargs["loss"] in qr_losses
@@ -128,6 +131,7 @@ class EnviroatlasPriorSegmentationTask(LightningModule):
                 classes=self.n_classes,
                 num_filters=kwargs["num_filters"],
                 output_smooth=kwargs["output_smooth"],
+                log_outputs=log_outputs,
             )
             self.pad = 5
         else:
@@ -249,15 +253,17 @@ class EnviroatlasPriorSegmentationTask(LightningModule):
         y_hat_hard = y_hat.argmax(dim=1)
 
         loss = self.loss(y_hat, y)
-
         with torch.no_grad():
-            z = nn.functional.normalize(torch.exp(y_hat), p=1, dim=(0, 2, 3))
+            if self.need_to_exp_output:
+                z = nn.functional.normalize(torch.exp(y_hat), p=1, dim=(0, 2, 3))
+            else:
+                z = nn.functional.normalize(y_hat, p=1, dim=(0, 2, 3))
             # y is the prior
             r_hat_hard = (z * y).argmax(dim=1)
 
         # by default, the train step logs every `log_every_n_steps` steps where
         # `log_every_n_steps` is a parameter to the `Trainer` object
-        self.log("train_loss", loss, on_step=True, on_epoch=False)
+        self.log("train_loss", loss, on_step=True, on_epoch=False, batch_size=len(batch['image']))
 
         self.train_accuracy_q(y_hat_hard, y_hr)
         self.train_iou_q(y_hat_hard, y_hr)
@@ -291,7 +297,10 @@ class EnviroatlasPriorSegmentationTask(LightningModule):
         loss = self.loss(y_hat, y)
 
         with torch.no_grad():
-            z = nn.functional.normalize(torch.exp(y_hat), p=1, dim=(0, 2, 3))
+            if self.need_to_exp_output:
+                z = nn.functional.normalize(torch.exp(y_hat), p=1, dim=(0, 2, 3))
+            else:
+                z = nn.functional.normalize(y_hat, p=1, dim=(0, 2, 3))
             r_hat_hard = (z * y).argmax(dim=1)
 
         # by default, the test and validation steps only log per *epoch*
@@ -317,8 +326,10 @@ class EnviroatlasPriorSegmentationTask(LightningModule):
             high_res_labels_vis = vis_lc_from_colors(
                 batch["high_res_labels"][0].cpu().numpy(), self.colors
             ).T.swapaxes(0, 1)
-
-            q = torch.exp(y_hat[0])
+            if self.need_to_exp_output:
+                q = torch.exp(y_hat[0])
+            else:
+                q = y_hat[0]
             pred_vis = vis_lc_from_colors(q.cpu().numpy(), self.colors).T.swapaxes(0, 1)
             # calculated r (one one image, so classes are on dim 0)
             r = nn.functional.normalize(z[0] * prior, p=1, dim=0)
@@ -374,7 +385,10 @@ class EnviroatlasPriorSegmentationTask(LightningModule):
         loss = self.loss(y_hat, y)
 
         with torch.no_grad():
-            z = nn.functional.normalize(torch.exp(y_hat), p=1, dim=(0, 2, 3))
+            if self.need_to_exp_output:
+                z = nn.functional.normalize(torch.exp(y_hat), p=1, dim=(0, 2, 3))
+            else:
+                z = nn.functional.normalize(y_hat, p=1, dim=(0, 2, 3))
             r_hat_hard = (z * y).argmax(dim=1)
 
         # by default, the test and validation steps only log per *epoch*

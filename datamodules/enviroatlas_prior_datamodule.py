@@ -14,10 +14,15 @@ from torch.optim.lr_scheduler import ReduceLROnPlateau
 from torch.utils.data import DataLoader
 from torchvision.transforms import Compose
 
-from torchgeo.datasets import EnviroAtlas
 from torchgeo.datasets.utils import stack_samples
 from torchgeo.samplers.single import GridGeoSampler
 from torchgeo.samplers.batch import RandomBatchGeoSampler
+
+#import local version which has layer for learned prior
+import sys
+sys.path.append('../datasets')
+from enviroatlas_with_learned_prior import EnviroAtlas
+
 
 class EnviroatlasPriorDataModule(LightningDataModule):
     """LightningDataModule implementation for the EvniroAtlas Land Cover dataset.
@@ -39,6 +44,7 @@ class EnviroatlasPriorDataModule(LightningDataModule):
         train_set: str = "train",
         val_set: str = "val",
         test_set: str = "test",
+        prior_version = 'from_cooccurrences_101_31',
         **kwargs: Any,
     ) -> None:
         """Initialize a LightningDataModule for Enviroatlas based DataLoaders with prior.
@@ -68,17 +74,27 @@ class EnviroatlasPriorDataModule(LightningDataModule):
                 "phoenix_az-2010_1m",
             ]
 
+        assert prior_version in ['from_cooccurrences_101_31',
+                                 'learned_101_31'
+                                ]
         print(patches_per_tile)
 
         self.root_dir = root_dir
         self.states = states
-        self.layers = ["naip", 
-                       "prior", 
-                       "lc",
-                       ]
+        if prior_version == 'from_cooccurrences_101_31':
+            self.layers = ["naip", 
+                           "prior", 
+                           "lc",
+                           ]
+        elif prior_version == 'learned_101_31':    
+            self.layers = ["naip", 
+                           "prior_learned", 
+                           "lc",
+                           ]
+            
         self.patches_per_tile = patches_per_tile
         self.patch_size = patch_size
-        self.original_patch_size = 300
+        self.original_patch_size = patch_size * 3
         self.batch_size = batch_size
         self.num_workers = num_workers
         self.prior_smoothing_constant = prior_smoothing_constant
@@ -86,6 +102,7 @@ class EnviroatlasPriorDataModule(LightningDataModule):
         self.classes_keep = classes_keep
         self.ignore_index = len(classes_keep)
         print(self.classes_keep)
+        print('patch size = ',self.patch_size)
 
         # prior is to be used as output supervision
         self.prior_as_input = False
@@ -176,19 +193,17 @@ class EnviroatlasPriorDataModule(LightningDataModule):
 
         reindexed_mask[reindexed_mask == -1] = self.ignore_index
         assert (reindexed_mask >= 0).all()
-        sample["high_res_labels"] = reindexed_mask.int()
+        sample["high_res_labels"] = reindexed_mask.long()
 
         # 2. make sure prior is normalized, then smooth
         sample["mask"] = nn.functional.normalize(sample["mask"].float(), p=1, dim=0)
         sample["mask"] = nn.functional.normalize(
             sample["mask"] + self.prior_smoothing_constant, p=1, dim=0
-        )
+        ).float()
 
         # 3. divide image by 255.
         sample["image"] = sample["image"].float() / 255.0
-
-        sample["mask"] = sample["mask"] 
-        
+    
         del sample["bbox"]
             
         return sample
@@ -298,15 +313,12 @@ class EnviroatlasPriorDataModule(LightningDataModule):
             batch_size=self.batch_size,
             length=self.patches_per_tile * len(self.train_dataset),
         )
-
         return DataLoader(
             self.train_dataset,
             batch_sampler=sampler,
             num_workers=self.num_workers,
             collate_fn=stack_samples,
         )
-
-        
 
     def val_dataloader(self) -> DataLoader[Any]:
         """Return a DataLoader for validation.
@@ -324,6 +336,7 @@ class EnviroatlasPriorDataModule(LightningDataModule):
             sampler=sampler,
             num_workers=self.num_workers,
             collate_fn=stack_samples,
+            shuffle=False
         )
 
     def test_dataloader(self) -> DataLoader[Any]:
@@ -343,5 +356,6 @@ class EnviroatlasPriorDataModule(LightningDataModule):
             sampler=sampler,
             num_workers=self.num_workers,
             collate_fn=stack_samples,
+            shuffle=False
         )
 
