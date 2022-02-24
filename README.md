@@ -2,7 +2,7 @@
 
 This repository details and replicates the experimental steps for the landcover experiments for ``Resolving Label Uncertaintiy with Implicit Generative Models."
 
-Steps for setting up the python environment, downloading data, and running the processing and experiments for landcover mapping are detailed below. To run the experiments, you'll need to reset some of the paths in the config files in `qr_for_landcover/conf` to point to the directories in which you download the datasets (and same thing for some of the evaluation scripts and notebooks).
+Steps for setting up the python environment, downloading data, and running the processing and experiments for landcover mapping are detailed below. To run the experiments, you'll may need to reset some of the paths in the config files in `qr_for_landcover/conf` to point to the directories in which you download the datasets (and same thing for some of the evaluation scripts and notebooks).
 
 ### Setting up the environment
  1. From the qr_for_landcover directory run `conda env create -f environment.yml`
@@ -11,9 +11,9 @@ Steps for setting up the python environment, downloading data, and running the p
  4. If you want to use jupyter notebooks to read and map the outputs, you'll need to configure this with the python environment.
 
 ### Downloading datasets
-The default parameters in this repo will assume you have data stored in ~/torchgeo_data. To do this, you can follow these steps:
+The default parameters in this repo will assume you have data stored in `/torchgeo_data`. To download the datasets, you can follow these steps:
 Chesapeake:
-- First download the ChesapeakeCVPR dataset, e.g. by following the instructions at: https://lila.science/faq#downloadtips . In what follows we assume the data is housed in `/torchgeo_data/` .
+- First download the ChesapeakeCVPR dataset, e.g. by following the instructions at: https://lila.science/faq#downloadtips .
 - Next add the prior files by downloading and following the instrcutions from downloading https://zenodo.org/record/5866525#.YeXhCVjMIws (use version 1.1).
   
 EnviroAtlas:
