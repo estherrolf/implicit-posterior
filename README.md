@@ -39,7 +39,7 @@ To generate the learned EnviroAtlas priors from the inputs to the hand-coded pri
 2. To run the model forward and save these learned priors, from the `evaluation` folder run `save_learned_priors.py`
 3. You can visualize the learned priors with `evaluation/visualize_output/visualize_learned_priors_ea.ipynb`.
 
-### Experiment Scripts:
+### Experiment scripts:
 The experiment scripts are broken up into hyperparameter search scripts (hp_\*.py) and evaluation runs (run_\*.py). To just replicate results in the paper, you can skip the hyperparameter searches. Evaluation of the results is described in the next section.
 
 Chesapeake:
@@ -51,7 +51,7 @@ EnviroAtlas):
 - To train the EnviroAtlas QR model with the best pittburgh model as the initializing for the model weights, run `run_qr_forward_enviroatlas_from_checkpoint.py` to run the model in the test set in each city. 
 - To use train the EnviroAtlas model using the learned prior, run `run_qr_forward_enviroatlas_learned_prior_from_checkpoint.py`.
 
-### Evaluating and Visualizing results:
+### Evaluating and visualizing results:
 To evaluate the Chesapeake Conservancy predictions in NY and PA:
 1. Evaluate the predictions against the high resolution labels with `evaluation/evaluate_qr_models_chesapeake.ipynb`
 
