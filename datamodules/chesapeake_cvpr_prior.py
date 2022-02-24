@@ -94,9 +94,6 @@ class ChesapeakeCVPRPriorDataModule(ChesapeakeCVPRDataModule):
         
         sample["image"] = sample["image"].float()
 
-        #print(sample["image"].dtype, sample["image"].shape)
-        #print(sample["mask"].dtype, sample["mask"].shape)
-        #print(sample["high_res_labels"].dtype, sample["high_res_labels"].shape)
         del sample["crs"]
         del sample["bbox"]
         

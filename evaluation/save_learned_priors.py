@@ -11,8 +11,9 @@ import torch
 import run_model_forward_and_produce_tifs
 
 # change this to wherever your training output is stored
-torchgeo_output_dir = "/home/esther/torchgeo/output"
-preds_save_dir = "/home/esther/torchgeo_predictions"
+torchgeo_output_dir = '/home/esther/qr_for_landcover/output_rep'
+preds_save_dir = '/home/esther/torchgeo_predictions_rep'
+torchgeo_data_dir = '/datadrive/esther/torchgeo_data'
 
 # states to compute the learned prior for
 states_to_eval = [
@@ -25,15 +26,15 @@ states_to_eval = [
 
 loss_to_eval_options = ["nll"]
 
-run_dirs = ["learn_prior_ea_2"]
+run_dirs = ["ea_learn_the_prior"]
 
 
 for run_dir in run_dirs:
     for states_str in states_to_eval:
 
         if "pittsburgh" in states_str:
-            # pittsburgh needs leadned priors for the val set also to pick hps in the
-            # step where we learn _on_ the learned prior.
+            # pittsburgh needs learned priors for the val set also in case you want to use
+            # the val set to pick hps in the step where we learn _on_ the learned prior.
 
             sets_to_eval = ["test", "val"]
         else:
@@ -61,7 +62,7 @@ for run_dir in run_dirs:
 
             for set_this in sets_to_eval:
 
-                data_dir_this_state = f"/home/esther/torchgeo_data/enviroatlas/{states_str}-{set_this}_tiles-debuffered"
+                data_dir_this_state = f"{torchgeo_data_dir}/enviroatlas_lotp/{states_str}-{set_this}_tiles-debuffered"
                 # these no osm priors are the input
                 image_fns = [
                     os.path.join(data_dir_this_state, x)
@@ -97,20 +98,23 @@ for run_dir in run_dirs:
                 if not os.path.exists(f"{preds_save_dir}/{run_name}"):
                     os.mkdir(f"{preds_save_dir}/{run_name}")
                     print(f"{preds_save_dir}/{run_name}")
-                if not os.path.exists(f"{preds_save_dir}/{run_name}/enviroatlas"):
-                    os.mkdir(f"{preds_save_dir}/{run_name}/enviroatlas")
-                    print(f"making dir {preds_save_dir}/{run_name}/enviroatlas")
+                if not os.path.exists(f"{preds_save_dir}/{run_name}/enviroatlas_lotp"):
+                    os.mkdir(f"{preds_save_dir}/{run_name}/enviroatlas_lotp")
+                    print(f"making dir {preds_save_dir}/{run_name}/enviroatlas_lotp")
                 if not os.path.exists(
-                    f"{preds_save_dir}/{run_name}/enviroatlas/{states_str}-{set_this}_tiles-debuffered"
+                    f"{preds_save_dir}/{run_name}/enviroatlas_lotp/{states_str}-{set_this}_tiles-debuffered"
                 ):
                     os.mkdir(
-                        f"{preds_save_dir}/{run_name}/enviroatlas/{states_str}-{set_this}_tiles-debuffered"
+                        f"{preds_save_dir}/{run_name}/enviroatlas_lotp/{states_str}-{set_this}_tiles-debuffered"
                     )
                     print(
-                        f"making dir {preds_save_dir}/{run_name}/enviroatlas/{states_str}-{set_this}_tiles-debuffered"
+                        f"making dir {preds_save_dir}/{run_name}/enviroatlas_lotp/{states_str}-{set_this}_tiles-debuffered"
                     )
 
                 print(model_ckpt_fp)
+                
+                model_type = 'fcn-larger'
+                padding_larger_fcn = 10
 
                 # run through tifs and save the output
                 run_model_forward_and_produce_tifs.run_through_tiles(
@@ -118,12 +122,13 @@ for run_dir in run_dirs:
                     image_fns[:],
                     output_fns[:],
                     evaluating_learned_prior=True,
-                    model="fcn-larger",
+                    model=model_type,
                     gpu=0,
                     overwrite=True,
                     model_kwargs=model_kwargs,
                     include_prior_as_datalayer=True,
                     prior_fns=extra_fns,
+                    edge_padding=padding_larger_fcn,
                 )
 
                 t2 = time.time()

@@ -19,12 +19,12 @@ lr_options = [1e-3,1e-4,1e-5]
 
 loss_options = ['qr_forward', 'qr_reverse']
 
-prior_version_options = ['from_cooccurrences_101_31']
+prior_version = 'from_cooccurrences_101_31'
 
 additive_smooth_options = [1e-4]
 prior_smooth_options = [1e-4]
 
-train_set, val_set, test_set = ['val', 'val', 'val']
+train_set, val_set, test_set = ['train', 'train', 'train']
 
 def do_work(work, gpu_idx):
     while not work.empty():
@@ -40,11 +40,10 @@ def main():
 
     work = Queue()
 
-    for (states_str, model, loss, prior_version, lr, additive_smooth, prior_smooth) in itertools.product(
+    for (states_str, model, loss, lr, additive_smooth, prior_smooth) in itertools.product(
         training_set_options,
         model_options,
         loss_options,
-        prior_version_options,
         lr_options,
         additive_smooth_options,
         prior_smooth_options
@@ -53,11 +52,11 @@ def main():
         experiment_name = f"pa_checkpoint_{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
         
         
-        model_checkpoint = "/home/esther/torchgeo/output/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
-        output_dir = "output/hp_search/ea_from_pittsburgh_model"
+        model_checkpoint = "../output_rep/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
+        output_dir = "../output_rep/hp_gridsearch_pittsburgh_qr_from_hr_checkpoint"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_on_prior.yml"
+            "python train.py program.overwrite=True config_file=../conf/enviroatlas_learn_on_prior.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.learning_rate={lr}"
@@ -65,7 +64,6 @@ def main():
             + f" experiment.module.model_ckpt={model_checkpoint}"
             + f" experiment.module.num_filters=128"
             + f" experiment.datamodule.batch_size=128"
-            + f" experiment.datamodule.prior_version={prior_version}"
             + f" experiment.datamodule.prior_smoothing_constant={prior_smooth}"
             + f" experiment.module.output_smooth={additive_smooth}"
             + f" experiment.datamodule.states_str={states_str}"
@@ -73,8 +71,7 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/hp_search/ea_from_pittsburgh"
-            + " program.data_dir=/home/esther/torchgeo_data/enviroatlas"
+            + f" program.log_dir=../logs/hp_gridsearch_pittsburgh_qr_from_hr_checkpoint"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()

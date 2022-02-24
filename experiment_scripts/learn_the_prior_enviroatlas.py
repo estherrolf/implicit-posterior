@@ -54,27 +54,26 @@ def main():
 
         experiment_name = f"{states_str}_{model}_{lr}_{loss}_blur_sigma_{nlcd_blur_sigma}_learn_the_prior"
 
-        output_dir = "output/learn_prior_ea_2/"
+        output_dir = "../output_rep/ea_learn_the_prior/"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_the_prior.yml"
+            "python train.py program.overwrite=True config_file=../conf/enviroatlas_learn_the_prior.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.loss={loss}"
             + f" experiment.module.learning_rate={lr}"
             + f" experiment.module.num_filters=128"
-            + f" experiment.datamodeul.batch_size=128"
-            + f" experiment.datamodeul.patch_size=128"
+            + f" experiment.datamodeule.batch_size=128"
             + f" experiment.module.output_smooth={additive_smooth}"
             + f" experiment.datamodule.nlcd_blur_kernelsize={nlcd_blur_kernelsize}"
             + f" experiment.datamodule.nlcd_blur_sigma={nlcd_blur_sigma}"
             + f" experiment.datamodule.states_str={states_str}"
-            + f" experiment.datamodule.patches_per_tile=800"
             + f" experiment.datamodule.train_set={train_set}"
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
+            + f" experiment.datamodule.patches_per_tile=1200"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/learn_prior_ea/learn_the_prior"
+            + f" program.log_dir=../logs/ea_learn_the_prior"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()

@@ -8,12 +8,12 @@ import sys
 import run_model_forward_and_produce_tifs 
 
 torchgeo_output_dir = '/home/esther/qr_for_landcover/output_rep'
-torchgeo_data_dir = '/home/esther/torchgeo_data'
+torchgeo_data_dir = '/datadrive/esther/torchgeo_data'
 torchgeo_pred_dir = '/home/esther/torchgeo_predictions_rep'
 
 
 states_to_eval = ['ny', 
-                  'pa'
+                  'pa',
                   'ny+pa'
                  ]
                        
@@ -22,7 +22,7 @@ prior_version = 'from_cooccurrences_101_31_no_osm_no_buildings'
 
 include_prior_as_datalayer=False
     
-run_dirs = ['chesepeake_north_qr']
+run_dirs = ['chesapeake_north_qr']
 
 # output smooth is 1e-4 for all of the runs
 model_kwargs = {'output_smooth':1e-4, 'classes': 4, 'num_filters': 128, 'in_channels': 4}            

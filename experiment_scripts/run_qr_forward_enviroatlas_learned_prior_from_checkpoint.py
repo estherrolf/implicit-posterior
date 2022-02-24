@@ -18,9 +18,11 @@ training_set_options = ['phoenix_az-2010_1m',
                         'austin_tx-2012_1m',
                         'pittsburgh_pa-2010_1m']
 model_options = ['fcn']
-lr_options = [1e-5]
 
-loss_options = ['qr_forward'] #, 'qr_reverse']
+loss_options = [
+     'qr_forward', 
+    # 'qr_reverse'
+]
 
 prior_version_options = ['learned_101_31',]
 
@@ -43,24 +45,29 @@ def main():
 
     work = Queue()
 
-    for (states_str, model, loss, prior_version, lr, additive_smooth, prior_smooth) in itertools.product(
+    for (states_str, model, loss, prior_version, additive_smooth, prior_smooth) in itertools.product(
         training_set_options,
         model_options,
         loss_options,
         prior_version_options,
-        lr_options,
         additive_smooth_options,
         prior_smooth_options
     ):
 
+        if loss == 'qr_forward':
+            lr = 1e-5
+        elif loss == 'qr_reverse':
+            lr = 1e-3
+            
         experiment_name = f"pa_checkpoint_{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
         
         
-        model_checkpoint = "/home/esther/torchgeo/output/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
-        output_dir = "output/ea_learned_prior"
+        model_checkpoint = "/home/esther/qr_for_landcover/output_rep/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
+        
+        output_dir = "../output_rep/ea_qr_learned_prior"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas_learn_on_prior.yml"
+            "python train.py program.overwrite=True config_file=../conf/enviroatlas_learn_on_prior.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.learning_rate={lr}"
@@ -76,7 +83,7 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/ea_learned_prior"
+            + f" program.log_dir=../logs/ea_qr_learned_prior"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()

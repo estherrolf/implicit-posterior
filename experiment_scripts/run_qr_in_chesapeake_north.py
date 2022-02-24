@@ -49,7 +49,7 @@ def main():
     ):
         experiment_name = f"{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
 
-        output_dir = "../output_rep/chesepeake_north_qr"
+        output_dir = "../output_rep/chesapeake_north_qr_rep"
           
         train_splits = [f'{state}-{train_set}' for state in states_str.split('+')]
         val_splits = [f'{state}-{val_set}' for state in states_str.split('+')]

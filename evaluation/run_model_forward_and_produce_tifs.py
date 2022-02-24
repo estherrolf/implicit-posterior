@@ -17,13 +17,11 @@ NUM_CLASSES = 5
 NUM_FILTERS = 128
 
 NUM_WORKERS = 4
-CHIP_SIZE = 128
 PADDING = 0
 assert PADDING % 2 == 0
 HALF_PADDING = PADDING // 2
 
 EDGE_PADDING = 5  # receptive_field of the basic fcn model is 11
-CHIP_STRIDE = CHIP_SIZE - 2 * EDGE_PADDING
 
 
 # Modified from script from Caleb to run model forward and produce tifs
@@ -106,10 +104,12 @@ def run_through_tiles(
     evaluating_learned_prior=False,
     prior_fns=[],
     batch_size=128,
+    patch_size=128,
     gpu=0,
     model_kwargs={"in_channels": 4, "classes": NUM_CLASSES, "num_filters": NUM_FILTERS},
     overwrite=False,
     return_dont_save=False,
+    edge_padding=EDGE_PADDING,
 ):
 
     ## Sanity checking
@@ -149,17 +149,18 @@ def run_through_tiles(
 
     if return_dont_save:
         assert len(input_fns) == 1
+        
+    chip_stride =  patch_size - 2 * edge_padding
 
     # Run the below code for each input file -- currently only one
     for i, (input_fn, output_fn) in enumerate(zip(input_fns, output_fns)):
         print(f"{i} of {len(input_fns)}")
         ## Setup dataloader
-        #      print(CHIP_STRIDE)
         if include_prior_as_datalayer:
             dataset = TileInferenceDataset(
                 input_fn,
-                chip_size=CHIP_SIZE,
-                stride=CHIP_STRIDE,
+                chip_size=patch_size,
+                stride=chip_stride,
                 transform=img_transforms_this,
                 verbose=False,
                 fns_additional=prior_fns[i],
@@ -167,8 +168,8 @@ def run_through_tiles(
         else:
             dataset = TileInferenceDataset(
                 input_fn,
-                chip_size=CHIP_SIZE,
-                stride=CHIP_STRIDE,
+                chip_size=patch_size,
+                stride=chip_stride,
                 transform=img_transforms_this,
                 verbose=False,
             )
@@ -199,27 +200,27 @@ def run_through_tiles(
                 y, x = coords[j]
 
                 # defaults (use whole chip size if you're on an corner)
-                y1, y2 = y, y + CHIP_SIZE
-                x1, x2 = x, x + CHIP_SIZE
+                y1, y2 = y, y + patch_size
+                x1, x2 = x, x + patch_size
 
                 yt1, yt2 = 0, t_output[j].shape[1]
                 xt1, xt2 = 0, t_output[j].shape[2]
 
                 # if we're in the middle, use the padding
                 # if this isn't the first chip in either dimension
-                if y1 - EDGE_PADDING >= 0:
-                    y1 = y1 + EDGE_PADDING
-                    yt1 = yt1 + EDGE_PADDING
-                if x1 - EDGE_PADDING >= 0:
-                    x1 = x1 + EDGE_PADDING
-                    xt1 = xt1 + EDGE_PADDING
+                if y1 - edge_padding >= 0:
+                    y1 = y1 + edge_padding
+                    yt1 = yt1 + edge_padding
+                if x1 - edge_padding >= 0:
+                    x1 = x1 + edge_padding
+                    xt1 = xt1 + edge_padding
                 # if this isn't the last chip in either dimension
                 if y2 < output.shape[1]:
-                    y2 = y2 - EDGE_PADDING
-                    yt2 = yt2 - EDGE_PADDING
+                    y2 = y2 - edge_padding
+                    yt2 = yt2 - edge_padding
                 if x2 < output.shape[2]:
-                    x2 = x2 - EDGE_PADDING
-                    xt2 = xt2 - EDGE_PADDING
+                    x2 = x2 - edge_padding
+                    xt2 = xt2 - edge_padding
 
                 output[:, y1:y2, x1:x2] += t_output[j][:, yt1:yt2, xt1:xt2]
                 counts[y1:y2, x1:x2] += 1

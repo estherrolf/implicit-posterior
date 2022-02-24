@@ -14,17 +14,17 @@ TEST_MODE = False  # if False then print out the commands to be run, if True the
 
 # Hyperparameter options
 training_set_options = ['phoenix_az-2010_1m',
-                       # 'austin_tx-2012_1m',
-                       # 'durham_nc-2012_1m', 
-                       # 'pittsburgh_pa-2010_1m'
+                        'austin_tx-2012_1m',
+                        'durham_nc-2012_1m', 
+                        'pittsburgh_pa-2010_1m'
                        ]
 model_options = ['fcn']
-#lr_options = [1e-5]
-lr_options = [1e-4]
 
-loss_options = ['qr_forward', 'qr_reverse']
+loss_options = ['qr_forward',
+                'qr_reverse'
+]
 
-prior_version_options = ['from_cooccurrences_101_31']
+prior_version = 'from_cooccurrences_101_31'
 
 additive_smooth_options = [1e-4]
 prior_smooth_options = [1e-4]
@@ -45,21 +45,25 @@ def main():
 
     work = Queue()
 
-    for (states_str, model, loss, prior_version, lr, additive_smooth, prior_smooth) in itertools.product(
+    for (states_str, model, loss, additive_smooth, prior_smooth) in itertools.product(
         training_set_options,
         model_options,
         loss_options,
-        prior_version_options,
-        lr_options,
         additive_smooth_options,
         prior_smooth_options
     ):
 
+        if loss == 'qr_forward':
+            lr = 1e-5
+        elif loss == 'qr_reverse':
+            lr = 1e-3
+            
+            
         experiment_name = f"pa_checkpoint_{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
         
         
-        model_checkpoint = "/home/esther/torchgeo/output/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
-        output_dir = "../output/ea_from_pittsburgh_model"
+        model_checkpoint = "/home/esther/qr_for_landcover/output_rep/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
+        output_dir = "../output_rep/ea_qr_from_pittsburgh_model_rep"
 
         command = (
             "python train.py program.overwrite=True config_file=../conf/enviroatlas_learn_on_prior.yml"
@@ -70,7 +74,6 @@ def main():
             + f" experiment.module.model_ckpt={model_checkpoint}"
             + f" experiment.module.num_filters=128"
             + f" experiment.datamodule.batch_size=128"
-            + f" experiment.datamodule.prior_version={prior_version}"
             + f" experiment.datamodule.prior_smoothing_constant={prior_smooth}"
             + f" experiment.module.output_smooth={additive_smooth}"
             + f" experiment.datamodule.states_str={states_str}"
@@ -78,8 +81,7 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=../logs/ea_from_pittsburgh"
-            + " program.data_dir=/home/esther/torchgeo_data/enviroatlas"
+            + f" program.log_dir=../logs/ea_qr_from_pittsburgh_model"
             + " trainer.gpus=[GPU]"
         )
         command = command.strip()

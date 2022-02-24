@@ -45,10 +45,10 @@ def main():
     ):
         experiment_name = f"{states_str}_{model}_{lr}_{loss}"
 
-        output_dir = "output/hp_gridsearch_pittsburgh"
+        output_dir = "../output_rep/hp_gridsearch_pittsburgh/"
 
         command = (
-            "python train.py program.overwrite=True config_file=conf/enviroatlas.yml"
+            "python train.py program.overwrite=True config_file=../conf/enviroatlas.yml"
             + f" experiment.name={experiment_name}"
             + f" experiment.module.segmentation_model={model}"
             + f" experiment.module.learning_rate={lr}"
@@ -61,9 +61,8 @@ def main():
             + f" experiment.datamodule.val_set={val_set}"
             + f" experiment.datamodule.test_set={test_set}"
             + f" program.output_dir={output_dir}"
-            + f" program.log_dir=logs/hp_gridsearch_pittsburgh"
-            + " program.data_dir=/home/esther/torchgeo_data/enviroatlas"
-            + " trainer.gpus='GPU'"
+            + f" program.log_dir=../logs/hp_gridsearch_pittsburgh"
+            + " trainer.gpus=[GPU]"
         )
         command = command.strip()
 
