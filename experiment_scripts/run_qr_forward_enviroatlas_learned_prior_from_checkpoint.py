@@ -20,8 +20,8 @@ training_set_options = ['phoenix_az-2010_1m',
 model_options = ['fcn']
 
 loss_options = [
-   # 'qr_forward', 
-     'qr_reverse'
+     'qr_forward', 
+    # 'qr_reverse'
 ]
 
 prior_version_options = ['learned_101_31',]
