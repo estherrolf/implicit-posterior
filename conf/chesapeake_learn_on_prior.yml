@@ -5,7 +5,7 @@ trainer:
   benchmark: True
 
 program:
-  data_dir: '/datadrive/esther/torchgeo_data/cvpr_chesapeake_landcover'
+  data_dir: '/torchgeo_data'
   overwrite: True
 
 experiment:
