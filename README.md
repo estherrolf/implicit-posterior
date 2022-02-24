@@ -2,7 +2,7 @@
 
 This repository details and replicates the experimental steps for the landcover experiments for ``Resolving Label Uncertaintiy with Implicit Generative Models."
 
-Steps for setting up the python environment, downloading data, and running the processing and experiments for landcover mapping are detailed below. To run the experiments, you'll may need to reset some of the paths in the config files in `qr_for_landcover/conf` to point to the directories in which you download the datasets (and same thing for some of the evaluation scripts and notebooks).
+Steps for setting up the python environment, downloading data, and running the processing and experiments for landcover mapping are detailed below. Depending on where you store the datasets, you may need to reset some of the paths in the config files in `qr_for_landcover/conf` (and same thing for some of the evaluation scripts and notebooks).
 
 ### Setting up the environment
  1. From the qr_for_landcover directory run `conda env create -f environment.yml`
@@ -61,7 +61,7 @@ To evaluate the EnviroAtlas predictions in each state:
 To save model output as tifs (e.g. for easy visualization):
 1. Run `save_predictions_chesapeake.py` or `save_predictions_enviroatlas.py` from the `evaluation` folder. If you only want to evaluate some enviroatlas experiments, you'll have to comment out some lines in that script.
 
-To visualize the outputs, use the notebooks in `evaluation/visualize_output.`
+To visualize the outputs, use the notebooks in `evaluation/visualize_output.` You'll need to adjust some of the directories defined at the top of the notebook to point to where your data and output are stored.
 
 ### Figures:
-Notebooks to generate the figures in the paper are in the `figure_notebooks` folder.
+Notebooks to generate the figures in the paper are in the `figure_notebooks` folder. You'll need to adjust some of the directories defined at the top of the notebook to point to where your data and output are stored.
