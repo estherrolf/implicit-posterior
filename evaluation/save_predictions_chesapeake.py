@@ -7,10 +7,9 @@ import sys
 
 import run_model_forward_and_produce_tifs 
 
-torchgeo_output_dir = '/home/esther/qr_for_landcover/output_rep'
-torchgeo_data_dir = '/datadrive/esther/torchgeo_data'
-torchgeo_pred_dir = '/home/esther/torchgeo_predictions_rep'
-
+torchgeo_output_dir = '../output_rep'
+torchgeo_data_dir = '/torchgeo_data'
+torchgeo_pred_dir = '../../torchgeo_predictions_rep'
 
 states_to_eval = ['ny', 
                   'pa',

@@ -11,9 +11,9 @@ import torch
 import run_model_forward_and_produce_tifs
 
 # change this to wherever your training output is stored
-torchgeo_output_dir = '/home/esther/qr_for_landcover/output_rep'
-preds_save_dir = '/home/esther/torchgeo_predictions_rep'
-torchgeo_data_dir = '/datadrive/esther/torchgeo_data'
+torchgeo_output_dir = '../output_rep'
+preds_save_dir = '../../torchgeo_predictions_rep'
+torchgeo_data_dir = '/torchgeo_data'
 
 # states to compute the learned prior for
 states_to_eval = [
