@@ -17,7 +17,7 @@ Chesapeake:
 - Next add the prior files by downloading and following the instrcutions from downloading https://zenodo.org/record/5866525#.YeXhCVjMIws (use version 1.1).
   
 EnviroAtlas:
-- The files for the EnviroAtlas dataset used in this analysis can be downloaded at: https://zenodo.org/record/5778193#.YeYSCVjMIws. 
+- The files for the EnviroAtlas dataset used in this analysis can be downloaded at: https://zenodo.org/record/6268150#.YhkcxpPMIws (use version 1.1). 
 
 
 ### Constructing the priors (optional):
