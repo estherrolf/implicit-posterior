@@ -62,7 +62,7 @@ def main():
         experiment_name = f"pa_checkpoint_{states_str}_{model}_{lr}_{loss}_{prior_version}_additive_smooth_{additive_smooth}_prior_smooth_{prior_smooth}"
         
         
-        model_checkpoint = "/home/esther/qr_for_landcover/output_rep/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
+        model_checkpoint = "../output_rep/hp_gridsearch_pittsburgh/pittsburgh_pa-2010_1m_fcn_0.001_nll/last.ckpt"
         output_dir = "../output_rep/ea_qr_from_pittsburgh_model_rep"
 
         command = (
