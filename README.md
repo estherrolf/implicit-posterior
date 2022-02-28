@@ -1,8 +1,12 @@
-This repository details and replicates the experimental steps for the landcover experiments for ``Resolving Label Uncertaintiy with Implicit Posterior Models."
+# implicit-posterior
 
-# qr_for_landcover
+Code for "Resolving Label Uncertainty with Implicit Posterior Models".
 
-Steps for setting up the python environment, downloading data, and running the processing and experiments for landcover mapping are detailed below. Depending on where you store the datasets, you may need to reset some of the paths in the config files in `qr_for_landcover/conf` (and same thing for some of the evaluation scripts and notebooks).
+## qr_for_landcover
+
+This directory details and replicates the experimental steps for the land cover experiments.
+
+Steps for setting up the python environment, downloading data, and running the processing and experiments for land cover mapping are detailed below. Depending on where you store the datasets, you may need to reset some of the paths in the config files in `qr_for_landcover/conf` (and same thing for some of the evaluation scripts and notebooks).
 
 ### Setting up the environment
  1. From the qr_for_landcover directory run `conda env create -f environment.yml`
