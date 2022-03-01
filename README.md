@@ -1,6 +1,6 @@
 # implicit-posterior
 
-Code for "Resolving Label Uncertainty with Implicit Posterior Models".
+Code for [Resolving Label Uncertainty with Implicit Posterior Models](https://arxiv.org/abs/2202.14000).
 
 ## qr_for_landcover
 
